@@ -41,6 +41,8 @@ class antdSpin {
     /* 使用 SVG 自定义的图标 */
     component: null,
     IconFont: {},
+    // 取消 console.log
+    log: false,
   };
 
   service(options = {}) {
@@ -53,7 +55,7 @@ class antdSpin {
         targetValue === null ||
         targetValue?.hasOwnProperty("current")
       ) {
-        console.log("option.target is effective!");
+        this.options.log && console.log("option.target is effective!");
       } else {
         throw new Error("option target error,please check!");
       }
@@ -232,9 +234,9 @@ class antdSpin {
     /* 移除已经上树的 React 组件 Spin，并清除其绑定的事件和状态 */
     const unmountComponentAtNode = ReactDOM.unmountComponentAtNode(this.dom);
     if (unmountComponentAtNode) {
-      console.info("component was unmounted!");
+      this.options.log && console.info("component was unmounted!");
     } else {
-      console.info("no component to unmount!");
+      this.options.log && console.info("no component to unmount!");
     }
 
     // 隐藏 Spin/loading

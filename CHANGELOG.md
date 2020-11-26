@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.0.4 (2020-11-27 01:20:15)
+
+chore: add can be cancelled log
+
 ## v1.0.3 (2020-11-27 01:01:55)
 
 fix: options target param bug

@@ -66,6 +66,7 @@ setTimeout(() => {
 | background | 遮罩背景色 | string | - |
 | customClass | Loading 组件的自定义类名 | string | - |
 | lock | 出现 loading 的时候，禁止屏幕滚动 | boolean | false |
+| log | 是否启用 `console` 打印日志 | boolean | false |
 | target | Loading 需要覆盖的 DOM 节点。可传入一个 DOM 对象或字符串；若传入字符串，则会将其作为参数传入 document.querySelector 以获取到对应 DOM 节点 | object/string | document.body |
 
 > 补充：target 字段支持 DOM 对象，DOM 对象支持两种方式使用。
