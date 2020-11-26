@@ -112,13 +112,13 @@ class antdSpin {
         } else {
           throw new Error("find error: No DOM found using querySelector API!");
         }
-      } else if (Object.keys(this.targetDOM)[0] === "current") {
+      } else if (Object.keys(this.targetDOM)[0]?.includes("current")) {
         // 1. ReactDOM
         requestAnimationFrame(() => {
           this.targetDOM = this.targetDOM.current;
           this.appendDOM2Target();
         });
-      } else if (Object.prototype.toString.call(this.targetDOM) === "[object HTMLDivElement]") {
+      } else if (this.targetDOM instanceof HTMLElement) {
         // 2. JS 原生 DOM
         this.appendDOM2Target();
       } else {
