@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.0.5 (2020-11-27 01:43:05)
+
+fix: option default target value "" => null
+
 ## v1.0.4 (2020-11-27 01:20:15)
 
 chore: add can be cancelled log
