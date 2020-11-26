@@ -44,6 +44,20 @@ class antdSpin {
   };
 
   service(options = {}) {
+    /* 先判断 target 字段是否合法 */
+    if (options?.hasOwnProperty("target")) {
+      const targetValue = options.target;
+      if (
+        typeof targetValue === "string" ||
+        targetValue instanceof HTMLElement ||
+        targetValue === null ||
+        targetValue?.hasOwnProperty("current")
+      ) {
+        console.log("option.target is effective!");
+      } else {
+        throw new Error("option target error,please check!");
+      }
+    }
     /* options 未自定义的字段，使用默认值 */
     const config = this.config;
     for (let k in config) {
@@ -73,7 +87,7 @@ class antdSpin {
       /* 添加蒙版 */
       this.dom.classList.add("el-loading-common-mask");
       /* 如果添加到全局，定位采用 fixed，否则采用 abso */
-      if (this.targetDOM === "") {
+      if (this.targetDOM === null) {
         this.dom.classList.add("el-loading-fixed-mask");
       } else {
         this.dom.classList.add("el-loading-absolute-mask");
@@ -112,11 +126,15 @@ class antdSpin {
         } else {
           throw new Error("find error: No DOM found using querySelector API!");
         }
-      } else if (Object.keys(this.targetDOM)[0]?.includes("current")) {
+      } else if (this.targetDOM?.hasOwnProperty("current")) {
         // 1. ReactDOM
         requestAnimationFrame(() => {
           this.targetDOM = this.targetDOM.current;
-          this.appendDOM2Target();
+          if (this.targetDOM instanceof HTMLElement) {
+            this.appendDOM2Target();
+          } else {
+            throw new Error("ref target no current DOM!");
+          }
         });
       } else if (this.targetDOM instanceof HTMLElement) {
         // 2. JS 原生 DOM
@@ -223,7 +241,7 @@ class antdSpin {
     if (this.requestFlag) {
       this.requestFlag = false;
       /* 移除 DOM */
-      if (this.targetDOM !== "") {
+      if (this.targetDOM !== null) {
         this.targetDOM.removeChild(this.dom);
         this.targetDOM.classList.remove("antd-targetDOM-position");
       } else {

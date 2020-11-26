@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## v1.0.1 (2020-11-26 22:18:40)
+## v1.0.3 (2020-11-27 01:01:55)
+
+fix: options target param bug
+
+## v1.0.2 (2020-11-26 22:18:40)
 
 fix: change DOM judgment mode
 
