@@ -129,17 +129,11 @@ class antdSpin {
           throw new Error("find error: No DOM found using querySelector API!");
         }
       } else if (this.targetDOM?.hasOwnProperty("current")) {
-        // 1. ReactDOM
-        requestAnimationFrame(() => {
-          this.targetDOM = this.targetDOM.current;
-          if (this.targetDOM instanceof HTMLElement) {
-            this.appendDOM2Target();
-          } else {
-            throw new Error("ref target no current DOM!");
-          }
-        });
+        throw new Error(
+          "when u use ReactDOM's method to pass reference to target, please input 👉ref.current👈 instead of 👉ref👈"
+        );
       } else if (this.targetDOM instanceof HTMLElement) {
-        // 2. JS 原生 DOM
+        // 1. ReactDOM 2. JS 原生 DOM
         this.appendDOM2Target();
       } else {
         document.body.appendChild(this.dom);
@@ -147,14 +141,6 @@ class antdSpin {
     }
 
     return this;
-  }
-
-  strMapToObj(strMap) {
-    const obj = Object.create(null);
-    for (let [k, v] of strMap) {
-      obj[k] = v;
-    }
-    return obj;
   }
 
   async customSpinIcons() {
@@ -193,14 +179,14 @@ class antdSpin {
     if (this.options.IconFont.type) {
       const { type, scriptUrl } = this.options.IconFont;
       const IconFont = createFromIconfontCN({ scriptUrl });
-      return <IconFont type={type} />;
+      /* IconFont 图标有 twoToneColor 会报错，所以需要去除它 */
+      delete loadingConfig.twoToneColor;
+      return <IconFont type={type} {...loadingConfig} />;
     }
 
     if (this.options.component) {
       /* 自定义图标有 twoToneColor 会报错，所以需要去除它 */
-      const loadingMapConfig = new Map(Object.entries(loadingConfig));
-      loadingMapConfig.delete("twoToneColor");
-      loadingConfig = this.strMapToObj(loadingMapConfig);
+      delete loadingConfig.twoToneColor;
 
       const CustomIcon = (props) => <Icon component={this.options.component} {...props} />;
       return <CustomIcon {...loadingConfig} />;
@@ -230,6 +216,15 @@ class antdSpin {
     this.targetDOM.appendChild(this.dom);
   }
 
+  domRemoveChild(containerDOM, targetDOM) {
+    if (containerDOM?.contains(targetDOM)) {
+      containerDOM.removeChild(targetDOM);
+      this.options.log && console.log("ChildDOM remove success!");
+    } else {
+      this.options.log && console.log("ChildDOM not append containerDOM!");
+    }
+  }
+
   close() {
     /* 移除已经上树的 React 组件 Spin，并清除其绑定的事件和状态 */
     const unmountComponentAtNode = ReactDOM.unmountComponentAtNode(this.dom);
@@ -244,10 +239,10 @@ class antdSpin {
       this.requestFlag = false;
       /* 移除 DOM */
       if (this.targetDOM !== null) {
-        this.targetDOM.removeChild(this.dom);
+        this.domRemoveChild(this.targetDOM, this.dom);
         this.targetDOM.classList.remove("antd-targetDOM-position");
       } else {
-        document.body.removeChild(this.dom);
+        this.domRemoveChild(document.body, this.dom);
       }
       this.targetDOM = this.dom = null;
     }
