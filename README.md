@@ -46,7 +46,7 @@ console.log(loadingInstance1 === loadingInstance2); // true
 // 3. 关闭
 /* 五秒之后自动关闭 */
 setTimeout(() => {
-    loadingInstance.close();
+	loadingInstance.close();
 }, 5000);
 
 // 4. 浏览器刷新项目，观察
@@ -58,18 +58,19 @@ setTimeout(() => {
 
 基本配置主要包含一些公用的常用配置，如下：
 
-| Property | Description | Type | Default Value|
-| :---: | :---: | :---: | :---: |
-| 参数 | 说明 | 类型 | 默认值 |
-| text | 显示在加载图标下方的加载文案 | string | - |
-| size | 组件大小，可选值为 `small` `default` `large` | string | `default` |
-| background | 遮罩背景色 | string | - |
-| customClass | Loading 组件的自定义类名 | string | - |
-| lock | 出现 loading 的时候，禁止屏幕滚动 | boolean | false |
-| log | 是否启用 `console` 打印日志 | boolean | false |
-| target | Loading 需要覆盖的 DOM 节点。可传入一个 DOM 对象或字符串；若传入字符串，则会将其作为参数传入 document.querySelector 以获取到对应 DOM 节点 | object/string | document.body |
+|  Property   |                                                                Description                                                                |     Type      | Default Value |
+| :---------: | :---------------------------------------------------------------------------------------------------------------------------------------: | :-----------: | :-----------: |
+|    参数     |                                                                   说明                                                                    |     类型      |    默认值     |
+|    text     |                                                       显示在加载图标下方的加载文案                                                        |    string     |       -       |
+|    size     |                                               组件大小，可选值为 `small` `default` `large`                                                |    string     |   `default`   |
+| background  |                                                                遮罩背景色                                                                 |    string     |       -       |
+| customClass |                                                         Loading 组件的自定义类名                                                          |    string     |       -       |
+|    lock     |                                                     出现 loading 的时候，禁止屏幕滚动                                                     |    boolean    |     false     |
+|     log     |                                                        是否启用 `console` 打印日志                                                        |    boolean    |     false     |
+|   target    | Loading 需要覆盖的 DOM 节点。可传入一个 DOM 对象或字符串；若传入字符串，则会将其作为参数传入 document.querySelector 以获取到对应 DOM 节点 | object/string | document.body |
 
 > 补充：target 字段支持 DOM 对象，DOM 对象支持两种方式使用。
+
 - JS 原生 DOM 对象，例如通过 `document.getElementById("app")` 捕获的 DOM。
 - React API 创建的 DOM 对象，例如通过 useRef/createRef 创建的 DOM 对象。记住给 antd-spin 传参的时候是 `ref.current`，而不是支持传入 `ref`。
 
@@ -77,10 +78,10 @@ setTimeout(() => {
 
 1. 使用 Antd 自带的图标
 
-| Property | Description | Type | Default Value|
-| :---: | :---: | :---: | :---: |
-| 参数 | 说明 | 类型 | 默认值 |
-| indicator | 自定义加载图标 | string | - |
+| Property  |  Description   |  Type  | Default Value |
+| :-------: | :------------: | :----: | :-----------: |
+|   参数    |      说明      |  类型  |    默认值     |
+| indicator | 自定义加载图标 | string |       -       |
 
 例如：要想加载 Antd 的 `<LoadingOutlined />` 这个图标组件，只需要这样配置：
 
@@ -90,6 +91,7 @@ setTimeout(() => {
     indicator: "LoadingOutlined"
 }
 ```
+
 2. 自定义图标
 
 如果项目有自己的图标，首先要保证这张图片是 SVG 格式的。看例子：
@@ -101,7 +103,7 @@ const HeartSvg = (props) => (
         <path d="M923 283.6c-13.4-31.1-32.6-58.9-56.9-82.8-24.3-23.8-52.5-42.4-84-55.5-32.5-13.5-66.9-20.3-102.4-20.3-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5-24.4 23.9-43.5 51.7-56.9 82.8-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3 0.1-35.3-7-69.6-20.9-101.9z" />
     </svg>
 );
-/* 
+/*
     这里千万注意⚠️ ，自定义SVG图标函数，必须有 props 属性，才能继承 Antd 的 spin（动画） rotate（旋转）等属性。
     没有 props 的话，直接开启 Antd 的 spin/rotate 是没有效果的。
     坑爹的 Antd 官网竟然没有说明
@@ -165,4 +167,4 @@ const HeartSvg = (props) => (
 }
 ```
 
-> 当前时间 Tuesday, November 24, 2020 15:59:25 
+> 当前时间 Tuesday, November 24, 2020 15:59:25
