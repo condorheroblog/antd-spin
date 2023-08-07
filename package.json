@@ -45,10 +45,10 @@
 		"prepublishOnly": "nr build",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
+		"format": "prettier --write .",
 		"test": "vitest",
 		"build:rollup": "rimraf dist && rollup -c",
 		"rollup:watch": "rimraf dist && rollup -c -w",
-		"format": "prettier --write .",
 		"typecheck": "tsc --noEmit",
 		"release": "bumpp -r && npm publish"
 	},
@@ -56,7 +56,7 @@
 		"pre-commit": "npx lint-staged"
 	},
 	"lint-staged": {
-		"*": [
+		"*.{ts,js,jsx,tsx}": [
 			"eslint --fix",
 			"prettier --write"
 		]

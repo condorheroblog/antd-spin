@@ -1,36 +1,19 @@
-import type { CSSProperties } from "react";
+import type { SpinProps } from "antd";
 import { createRoot } from "react-dom/client";
 import { Spin } from "antd";
 import "./index.css";
 
-interface LoadingConfig {
-	spinner?: string;
-	rotate?: number;
-	spin?: boolean;
-	style?: CSSProperties;
-	twoToneColor?: string;
-}
-
-interface IconFontConfig {
-	// TODO: add properties for IconFont config
-}
-
-interface LoadingOptions {
+export interface LoadingOptions {
 	target?: HTMLElement | string;
 	fullscreen?: boolean;
 	lock?: boolean;
-	text?: string;
 	background?: string;
-	size?: "small" | "default" | "large";
 	customClass?: string;
-	loadingConfig?: LoadingConfig;
-	indicator?: string;
-	component?: SVGElement;
-	IconFont?: IconFontConfig;
+	spinProps?: SpinProps;
 	log?: boolean;
 }
 
-interface LoadingInstance {
+export interface LoadingInstance {
 	close: () => void;
 }
 
@@ -47,22 +30,42 @@ function loading(options: LoadingOptions = {}) {
 
 	const spinContainer = document.createElement("div");
 	spinContainer.classList.add("el-loading-mask", resolved.customClass);
+	if (resolved.fullscreen) {
+		spinContainer.classList.add("is-fullscreen");
+	}
+	spinContainer.style.setProperty("background-color", resolved.background);
 
 	const parentPosition = globalThis.getComputedStyle(resolved.parent).getPropertyValue("position");
 	if (!["absolute", "fixed", "sticky"].includes(parentPosition)) {
 		resolved.parent.classList.add("el-loading-parent--relative");
 	}
+	if (resolved.lock) {
+		resolved.parent.classList.add("el-loading-parent--hidden");
+	}
 
 	const root = createRoot(spinContainer);
-	root.render(<Spin />);
+
+	let rootClassName = "";
+	if (resolved.spinProps.children) {
+		if (resolved.spinProps.rootClassName) {
+			rootClassName += `${resolved.spinProps.rootClassName}`;
+		}
+	} else {
+		rootClassName = "el-loading-spinner";
+		if (resolved.spinProps.rootClassName) {
+			rootClassName += ` ${resolved.spinProps.rootClassName}`;
+		}
+	}
+
+	root.render(<Spin {...resolved.spinProps} rootClassName={rootClassName} />);
 	resolved.parent.appendChild(spinContainer);
 
 	const instance = {
 		close: () => {
-			resolved.parent.classList.remove("el-loading-parent--relative");
+			resolved.parent.classList.remove("el-loading-parent--relative", "el-loading-parent--hidden");
 			spinContainer.parentNode?.removeChild(spinContainer);
 			root.unmount();
-			console.log("closed");
+			fullscreenInstance = undefined;
 		},
 	};
 	if (resolved.fullscreen) {
@@ -84,19 +87,8 @@ const resolveOptions = (options: LoadingOptions) => {
 		fullscreen: target === document.body && (options.fullscreen ?? true),
 		lock: options.lock ?? false,
 		customClass: options.customClass || "",
-		text: "",
-		background: "transparent",
-		size: "large",
-		loadingConfig: {
-			spinner: "",
-			rotate: 0,
-			spin: false,
-			style: {},
-			twoToneColor: "#eb2f96",
-		},
-		indicator: "",
-		component: null,
-		IconFont: {},
+		background: options.background || "transparent",
+		spinProps: options.spinProps || {},
 		log: false,
 	};
 };

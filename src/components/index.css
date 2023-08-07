@@ -4,12 +4,31 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	z-index: 2023;
 }
 
+/* hack: when spin has children */
+.ant-spin-nested-loading {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%);
+}
+
+.el-loading-spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.is-fullscreen {
+	position: fixed;
+}
+
 .el-loading-parent--relative {
-	position: relative;
+	position: relative !important;
+}
+
+.el-loading-parent--hidden {
+	overflow: hidden !important;
 }
