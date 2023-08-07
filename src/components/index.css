@@ -1,28 +1,15 @@
-.el-loading-common-mask {
+.el-loading-mask {
+	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: transparent;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 9999;
-	font-size: 20px;
+	z-index: 2023;
 }
 
-.el-loading-absolute-mask {
-	position: absolute;
-}
-
-.el-loading-fixed-mask {
-	position: fixed;
-}
-
-.antd-loading-html--hidden {
-	overflow: hidden !important;
-}
-
-.antd-targetDOM-position {
+.el-loading-parent--relative {
 	position: relative;
 }

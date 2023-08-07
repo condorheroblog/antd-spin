@@ -1,4 +1,7 @@
 import type { CSSProperties } from "react";
+import { createRoot } from "react-dom/client";
+import { Spin } from "antd";
+import "./index.css";
 
 interface LoadingConfig {
 	spinner?: string;
@@ -14,6 +17,7 @@ interface IconFontConfig {
 
 interface LoadingOptions {
 	target?: HTMLElement | string;
+	fullscreen?: boolean;
 	lock?: boolean;
 	text?: string;
 	background?: string;
@@ -26,54 +30,76 @@ interface LoadingOptions {
 	log?: boolean;
 }
 
-/**
- * Initial configuration object for antSpin.
- *
- * @property {HTMLElement|string} target - The DOM element or selector string for the target element.
- * @property {boolean} lock - Whether or not to lock the target element while the component is active.
- * @property {string} text - The loading text to display beneath the loading icon.
- * @property {string} background - The background color for the component.
- * @property {string} size - The size of the component, can be one of "small", "default", or "large".
- * @property {string} customClass - A custom class name to add to the component.
- * @property {Object} loadingConfig - The configuration options for the loading icon.
- * @property {string} loadingConfig.spinner - The custom class name for the loading icon.
- * @property {number} loadingConfig.rotate - The rotation angle of the loading icon (not supported in IE9).
- * @property {boolean} loadingConfig.spin - Whether or not the loading icon should spin.
- * @property {Object} loadingConfig.style - Additional CSS styles to apply to the loading icon.
- * @property {string} loadingConfig.twoToneColor - The primary color for a two-tone loading icon.
- * @property {string} indicator - A custom indicator to display instead of the default loading icon.
- * @property {HTMLElement} component - An SVG element to use as the loading icon.
- * @property {Object} IconFont - An object containing configuration options for an icon font.
- * @property {boolean} log - Whether or not to log output to the console.
- */
-const INITIAL_CONFIG = {
-	target: null,
-	lock: false,
-	text: "",
-	background: "transparent",
-	size: "large",
-	customClass: "",
-	loadingConfig: {
-		spinner: "",
-		rotate: 0,
-		spin: false,
-		style: {},
-		twoToneColor: "#eb2f96",
-	},
-	indicator: "",
-	component: null,
-	IconFont: {},
-	log: false,
-};
+interface LoadingInstance {
+	close: () => void;
+}
 
-function loading(config?: LoadingOptions) {
-	console.log(config, INITIAL_CONFIG);
-	return {
+let fullscreenInstance: LoadingInstance | undefined = undefined;
+
+function loading(options: LoadingOptions = {}) {
+	const resolved = resolveOptions(options);
+
+	if (resolved.fullscreen && fullscreenInstance) {
+		return fullscreenInstance;
+	}
+
+	console.log(resolved);
+
+	const spinContainer = document.createElement("div");
+	spinContainer.classList.add("el-loading-mask", resolved.customClass);
+
+	const parentPosition = globalThis.getComputedStyle(resolved.parent).getPropertyValue("position");
+	if (!["absolute", "fixed", "sticky"].includes(parentPosition)) {
+		resolved.parent.classList.add("el-loading-parent--relative");
+	}
+
+	const root = createRoot(spinContainer);
+	root.render(<Spin />);
+	resolved.parent.appendChild(spinContainer);
+
+	const instance = {
 		close: () => {
+			resolved.parent.classList.remove("el-loading-parent--relative");
+			spinContainer.parentNode?.removeChild(spinContainer);
+			root.unmount();
 			console.log("closed");
 		},
 	};
+	if (resolved.fullscreen) {
+		fullscreenInstance = instance;
+	}
+	return instance;
 }
+
+const resolveOptions = (options: LoadingOptions) => {
+	let target: HTMLElement;
+	if (typeof options.target === "string") {
+		target = document.querySelector<HTMLElement>(options.target) ?? document.body;
+	} else {
+		target = options.target ?? document.body;
+	}
+
+	return {
+		parent: target,
+		fullscreen: target === document.body && (options.fullscreen ?? true),
+		lock: options.lock ?? false,
+		customClass: options.customClass || "",
+		text: "",
+		background: "transparent",
+		size: "large",
+		loadingConfig: {
+			spinner: "",
+			rotate: 0,
+			spin: false,
+			style: {},
+			twoToneColor: "#eb2f96",
+		},
+		indicator: "",
+		component: null,
+		IconFont: {},
+		log: false,
+	};
+};
 
 export const antdSpin = {
 	service: loading,
