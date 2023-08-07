@@ -1,3 +1,11 @@
+.el-loading-parent--relative {
+	position: relative !important;
+}
+
+.el-loading-parent--hidden {
+	overflow: hidden !important;
+}
+
 .el-loading-mask {
 	position: absolute;
 	top: 0;
@@ -8,27 +16,20 @@
 }
 
 /* hack: when spin has children */
-.ant-spin-nested-loading {
+.el-loading-mask .ant-spin-nested-loading {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%);
 }
 
-.el-loading-spinner {
+.el-loading-mask .el-loading-spinner {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
 
-.is-fullscreen {
+.el-loading-mask.is-fullscreen {
 	position: fixed;
 }
 
-.el-loading-parent--relative {
-	position: relative !important;
-}
-
-.el-loading-parent--hidden {
-	overflow: hidden !important;
-}
