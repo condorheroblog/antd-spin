@@ -1,6 +1,5 @@
 // rollup.config.mjs
 import { readFileSync } from "node:fs";
-import babelRollup from "@rollup/plugin-babel";
 import esbuild from "rollup-plugin-esbuild";
 import postcss from "rollup-plugin-postcss";
 import { dts } from "rollup-plugin-dts";
@@ -9,7 +8,12 @@ import { dts } from "rollup-plugin-dts";
 // import pkg from "./package.json" with { type: "json"};
 
 const pkg = JSON.parse(readFileSync("./package.json", "utf-8"));
-const external = [...Object.keys(pkg.devDependencies), ...Object.keys(pkg.peerDependencies)];
+const external = [
+	...Object.keys(pkg.devDependencies),
+	...Object.keys(pkg.peerDependencies),
+	"react-dom/client",
+	"react/jsx-runtime",
+];
 
 /**
  * @type {import('rollup').RollupOptions}
@@ -18,7 +22,7 @@ export const rollupConfig = [
 	{
 		input: "./src/index.ts",
 		external,
-		plugins: [babelRollup({ babelHelpers: "bundled", extensions: [".tsx"] }), postcss(), esbuild()],
+		plugins: [postcss(), esbuild()],
 
 		output: [
 			{
@@ -33,9 +37,8 @@ export const rollupConfig = [
 	},
 	{
 		input: "./src/index.ts",
-		external,
+		external: [/\.css$/u],
 		plugins: [dts()],
-
 		output: {
 			file: "./dist/index.d.ts",
 			format: "esm",
