@@ -1,9 +1,0 @@
-{
-	"reportUnusedDisableDirectives": true,
-	"extends": ["plugin:prettier/recommended", "prettier"],
-	"plugins": ["prettier"],
-	"parserOptions": {
-		"sourceType": "module",
-		"ecmaVersion": "latest"
-	}
-}

@@ -43,7 +43,7 @@
 	"homepage": "https://github.com/condorheroblog/antd-spin/blob/main/README.md",
 	"scripts": {
 		"prepublishOnly": "nr build",
-		"lint": "eslint .",
+		"lint": "eslint playgrounds/src/main.tsx",
 		"lint:fix": "eslint . --fix",
 		"test": "vitest",
 		"build:rollup": "rollup -c",
@@ -52,10 +52,8 @@
 		"typecheck": "tsc --noEmit",
 		"release": "bumpp -r && npm publish"
 	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
+	"simple-git-hooks": {
+		"pre-commit": "npx lint-staged"
 	},
 	"lint-staged": {
 		"*": [
@@ -78,19 +76,21 @@
 		"@types/node": "^20.4.7",
 		"@types/react": "^18.2.18",
 		"@types/react-dom": "^18.2.7",
+		"@typescript-eslint/eslint-plugin": "^6.2.1",
+		"@typescript-eslint/parser": "^6.2.1",
 		"bumpp": "^9.1.1",
+		"esbuild": "^0.18.17",
 		"eslint": "^8.46.0",
 		"eslint-config-prettier": "^8.9.0",
 		"eslint-plugin-prettier": "^5.0.0",
 		"eslint-plugin-react": "^7.33.1",
-		"husky": "^8.0.3",
 		"lint-staged": "^13.2.3",
 		"prettier": "^3.0.0",
-		"esbuild": "^0.18.17",
 		"rollup": "^3.27.0",
 		"rollup-plugin-dts": "^5.3.1",
-		"rollup-plugin-postcss": "^3.1.8",
 		"rollup-plugin-esbuild": "^5.0.0",
+		"rollup-plugin-postcss": "^3.1.8",
+		"simple-git-hooks": "^2.9.0",
 		"typescript": "^5.1.6",
 		"vitest": "^0.34.1"
 	},
