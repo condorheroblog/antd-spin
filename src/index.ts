@@ -1,1 +1,2 @@
-export * from "./components/antdSpin";
+export * from "./service";
+export * from "./directive";

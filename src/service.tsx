@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Spin } from "antd";
 import "./index.less";
 
-const classPrefix = "AntdSpin";
+export const classPrefix = "AntdSpin";
 export interface LoadingOptions {
 	target?: HTMLElement | string;
 	fullscreen?: boolean;

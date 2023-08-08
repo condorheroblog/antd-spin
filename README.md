@@ -61,6 +61,21 @@ show time
 
 ![singleton-mode](./img/singleton-mode.gif)
 
+### Directive
+
+```tsx
+import { AntdSpin } from "antd-spin";
+
+const DemoSpin = () => {
+	return (
+		<AntdSpin fullscreen={true} />
+	);
+}
+```
+
+- `fullscreen` is true, return a fullscreen Spin.
+- `fullscreen` is false, return a Spin.
+
 ### Options
 
 | Name        | Description                                                                                                                                                              | Type                       | Default       |
@@ -70,7 +85,7 @@ show time
 | lock        | Disable background scrolling                                                                                                                                             | `boolean`                  | false         |
 | background  | Background color of the mask                                                                                                                                             | `string`                   | —             |
 | customClass | Custom class name for Spin                                                                                                                                               | `string`                   | —             |
-| spinProps   | The properties of antd's Spin component                                                                                                                                  | `SpinProps`                | {}            |
+| spinProps   | The properties of antd's Spin component                                                                                                                                  | [SpinProps](#spinprops)    | {}            |
 
 #### [SpinProps](https://github.com/ant-design/ant-design/blob/master/components/spin/index.tsx#L17)
 
