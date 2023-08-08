@@ -28,10 +28,14 @@ function loading(options: LoadingOptions = {}) {
 	}
 
 	const spinContainer = document.createElement("div");
-	spinContainer.classList.add(`${classPrefix}-loading-mask`, resolved.customClass);
+	spinContainer.classList.add(`${classPrefix}-loading-mask`);
+	if (resolved.customClass) {
+		spinContainer.classList.add(resolved.customClass);
+	}
 	if (resolved.fullscreen) {
 		spinContainer.classList.add("is-fullscreen");
 	}
+
 	spinContainer.style.setProperty("background-color", resolved.background);
 
 	const parentPosition = globalThis.getComputedStyle(resolved.parent).getPropertyValue("position");
