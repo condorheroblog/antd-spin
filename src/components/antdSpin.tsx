@@ -1,8 +1,9 @@
 import type { SpinProps } from "antd";
 import { createRoot } from "react-dom/client";
 import { Spin } from "antd";
-import "./index.css";
+import "./index.less";
 
+const classPrefix = "AntdSpin";
 export interface LoadingOptions {
 	target?: HTMLElement | string;
 	fullscreen?: boolean;
@@ -26,10 +27,8 @@ function loading(options: LoadingOptions = {}) {
 		return fullscreenInstance;
 	}
 
-	console.log(resolved);
-
 	const spinContainer = document.createElement("div");
-	spinContainer.classList.add("el-loading-mask", resolved.customClass);
+	spinContainer.classList.add(`${classPrefix}-loading-mask`, resolved.customClass);
 	if (resolved.fullscreen) {
 		spinContainer.classList.add("is-fullscreen");
 	}
@@ -37,10 +36,10 @@ function loading(options: LoadingOptions = {}) {
 
 	const parentPosition = globalThis.getComputedStyle(resolved.parent).getPropertyValue("position");
 	if (!["absolute", "fixed", "sticky"].includes(parentPosition)) {
-		resolved.parent.classList.add("el-loading-parent--relative");
+		resolved.parent.classList.add(`${classPrefix}-loading-parent--relative`);
 	}
 	if (resolved.lock) {
-		resolved.parent.classList.add("el-loading-parent--hidden");
+		resolved.parent.classList.add(`${classPrefix}-loading-parent--hidden`);
 	}
 
 	const root = createRoot(spinContainer);
@@ -51,7 +50,7 @@ function loading(options: LoadingOptions = {}) {
 			rootClassName += `${resolved.spinProps.rootClassName}`;
 		}
 	} else {
-		rootClassName = "el-loading-spinner";
+		rootClassName = `${classPrefix}-loading-spinner`;
 		if (resolved.spinProps.rootClassName) {
 			rootClassName += ` ${resolved.spinProps.rootClassName}`;
 		}
@@ -62,7 +61,10 @@ function loading(options: LoadingOptions = {}) {
 
 	const instance = {
 		close: () => {
-			resolved.parent.classList.remove("el-loading-parent--relative", "el-loading-parent--hidden");
+			resolved.parent.classList.remove(
+				`${classPrefix}-loading-parent--relative`,
+				`${classPrefix}-loading-parent--hidden`,
+			);
 			spinContainer.parentNode?.removeChild(spinContainer);
 			root.unmount();
 			fullscreenInstance = undefined;

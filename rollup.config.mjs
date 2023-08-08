@@ -37,7 +37,7 @@ export const rollupConfig = [
 	},
 	{
 		input: "./src/index.ts",
-		external: [/\.css$/u],
+		external: [/\.(c|le)ss$/u],
 		plugins: [dts()],
 		output: {
 			file: "./dist/index.d.ts",
