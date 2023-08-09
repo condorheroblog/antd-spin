@@ -27,7 +27,11 @@ export const Demo = () => {
 	};
 
 	const startTarget = () => {
-		const spinInstance = antdSpin.service({ target: "#demo-target", background: "rgba(0, 0, 0, 0.3)" });
+		const spinInstance = antdSpin.service({
+			target: "#demo-target",
+			background: "rgba(0, 0, 0, 0.3)",
+			spinProps: { tip: "Loading", children: null },
+		});
 		setTimeout(() => {
 			spinInstance.close();
 		}, 5000);

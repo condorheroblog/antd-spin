@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { Spin } from "antd";
 import "./index.less";
 
-export const classPrefix = "AntdSpin";
 export interface LoadingOptions {
 	target?: HTMLElement | string;
 	fullscreen?: boolean;
@@ -11,13 +10,13 @@ export interface LoadingOptions {
 	background?: string;
 	customClass?: string;
 	spinProps?: SpinProps;
-	log?: boolean;
 }
 
 export interface LoadingInstance {
 	close: () => void;
 }
 
+export const classPrefix = "AntdSpin";
 let fullscreenInstance: LoadingInstance | undefined = undefined;
 
 function loading(options: LoadingOptions = {}) {
@@ -95,7 +94,6 @@ const resolveOptions = (options: LoadingOptions) => {
 		customClass: options.customClass || "",
 		background: options.background || "transparent",
 		spinProps: options.spinProps || {},
-		log: false,
 	};
 };
 

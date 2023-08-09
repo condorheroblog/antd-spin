@@ -19,7 +19,7 @@ export const AntdSpin = (antdSpinProps: AntdSpinProps) => {
 				{fullscreenProps.spinning
 					? createPortal(
 							<div className={`${classPrefix}-loading-mask is-fullscreen`}>
-								<Spin {...fullscreenProps}>
+								<Spin {...fullscreenProps} style={{ maxHeight: "initial" }}>
 									{/* tip: Customize description content when Spin has children */}
 									{null}
 								</Spin>
