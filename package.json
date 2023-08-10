@@ -47,8 +47,8 @@
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --write .",
 		"test": "vitest",
-		"build:rollup": "rimraf dist && rollup -c",
-		"rollup:watch": "rimraf dist && rollup -c -w",
+		"build": "rimraf dist && rollup -c",
+		"build:watch": "rimraf dist && rollup -c -w",
 		"typecheck": "tsc --noEmit",
 		"release": "bumpp -r && npm publish"
 	},
