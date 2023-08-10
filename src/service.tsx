@@ -1,5 +1,5 @@
 import type { SpinProps } from "antd";
-import { render, unmountComponentAtNode } from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Spin } from "antd";
 import "./index.less";
 
@@ -45,7 +45,7 @@ function loading(options: LoadingOptions = {}) {
 		resolved.parent.classList.add(`${classPrefix}-loading-parent--hidden`);
 	}
 
-	// const root = createRoot(spinContainer);
+	const root = createRoot(spinContainer);
 
 	let rootClassName = "";
 	if (resolved.spinProps.children) {
@@ -59,7 +59,7 @@ function loading(options: LoadingOptions = {}) {
 		}
 	}
 
-	render(<Spin {...resolved.spinProps} rootClassName={rootClassName} />, spinContainer);
+	root.render(<Spin {...resolved.spinProps} rootClassName={rootClassName} />);
 	resolved.parent.appendChild(spinContainer);
 
 	const instance = {
@@ -69,7 +69,7 @@ function loading(options: LoadingOptions = {}) {
 				`${classPrefix}-loading-parent--hidden`,
 			);
 			spinContainer.parentNode?.removeChild(spinContainer);
-			unmountComponentAtNode(resolved.parent);
+			root.unmount();
 			fullscreenInstance = undefined;
 		},
 	};
