@@ -1,0 +1,13 @@
+body {
+	margin: 1em 2em;
+	min-width: 960px;
+	/* min-height: 200vh; */
+	overflow: auto;
+}
+
+
+#root {
+	display: flex;
+	justify-content: center;
+}
+
